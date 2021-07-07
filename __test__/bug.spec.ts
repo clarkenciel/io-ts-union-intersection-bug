@@ -28,10 +28,10 @@ test("union", () => {
   type codec = io.TypeOf<typeof codec>;
   type check1 = conds.AssertTrue<conds.Has<codec, { kind: "a"; a: string }>>;
   type check2 = conds.AssertTrue<conds.Has<codec, { kind: "b"; b: string }>>;
-  type check3 = conds.AssertTrue<
+  type check3 = conds.AssertFalse<
     conds.Has<codec, { kind: "a"; b: string; a: string }>
   >;
-  type check4 = conds.AssertTrue<
+  type check4 = conds.AssertFalse<
     conds.Has<codec, { kind: "b"; b: string; a: string }>
   >;
 
@@ -68,10 +68,10 @@ test("union of intersections", () => {
   type codec = io.TypeOf<typeof codec>;
   type check1 = conds.AssertTrue<conds.Has<codec, { kind: "a"; a: string }>>;
   type check2 = conds.AssertTrue<conds.Has<codec, { kind: "b"; b: string }>>;
-  type check3 = conds.AssertTrue<
+  type check3 = conds.AssertFalse<
     conds.Has<codec, { kind: "a"; b: string; a: string }>
   >;
-  type check4 = conds.AssertTrue<
+  type check4 = conds.AssertFalse<
     conds.Has<codec, { kind: "b"; b: string; a: string }>
   >;
 
@@ -115,10 +115,10 @@ test("intersection of unions", () => {
   type codec = io.TypeOf<typeof codec>;
   type check1 = conds.AssertTrue<conds.Has<codec, { kind: "a"; a: string }>>;
   type check2 = conds.AssertTrue<conds.Has<codec, { kind: "b"; b: string }>>;
-  type check3 = conds.AssertTrue<
+  type check3 = conds.AssertFalse<
     conds.Has<codec, { kind: "a"; b: string; a: string }>
   >;
-  type check4 = conds.AssertTrue<
+  type check4 = conds.AssertFalse<
     conds.Has<codec, { kind: "b"; b: string; a: string }>
   >;
 
