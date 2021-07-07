@@ -62,7 +62,7 @@ test("union", () => {
   );
 });
 
-test("union of intersections", () => {
+test("intersection of union", () => {
   const codec = withVersion(io.union([variantA, variantB]), "1");
 
   type codec = io.TypeOf<typeof codec>;
@@ -106,7 +106,7 @@ test("union of intersections", () => {
   );
 });
 
-test("intersection of unions", () => {
+test("union of intersections", () => {
   const codec = io.union([
     withVersion(variantA, "1"),
     withVersion(variantB, "1"),
