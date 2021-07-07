@@ -1,5 +1,6 @@
 import * as io from "io-ts";
 import * as either from "fp-ts/Either";
+import * as conds from "conditional-type-checks";
 
 const variantA = io.exact(
   io.type({
@@ -23,6 +24,17 @@ const withVersion = <V extends string, R extends Record<string, unknown>>(
 
 test("union", () => {
   const codec = io.union([variantA, variantB]);
+
+  type codec = io.TypeOf<typeof codec>;
+  type check1 = conds.AssertTrue<conds.Has<codec, { kind: "a"; a: string }>>;
+  type check2 = conds.AssertTrue<conds.Has<codec, { kind: "b"; b: string }>>;
+  type check3 = conds.AssertTrue<
+    conds.Has<codec, { kind: "a"; b: string; a: string }>
+  >;
+  type check4 = conds.AssertTrue<
+    conds.Has<codec, { kind: "b"; b: string; a: string }>
+  >;
+
   expect(
     codec.decode({
       kind: "a",
@@ -52,6 +64,17 @@ test("union", () => {
 
 test("union of intersections", () => {
   const codec = withVersion(io.union([variantA, variantB]), "1");
+
+  type codec = io.TypeOf<typeof codec>;
+  type check1 = conds.AssertTrue<conds.Has<codec, { kind: "a"; a: string }>>;
+  type check2 = conds.AssertTrue<conds.Has<codec, { kind: "b"; b: string }>>;
+  type check3 = conds.AssertTrue<
+    conds.Has<codec, { kind: "a"; b: string; a: string }>
+  >;
+  type check4 = conds.AssertTrue<
+    conds.Has<codec, { kind: "b"; b: string; a: string }>
+  >;
+
   expect(
     codec.decode({
       version: "1",
@@ -88,6 +111,17 @@ test("intersection of unions", () => {
     withVersion(variantA, "1"),
     withVersion(variantB, "1"),
   ]);
+
+  type codec = io.TypeOf<typeof codec>;
+  type check1 = conds.AssertTrue<conds.Has<codec, { kind: "a"; a: string }>>;
+  type check2 = conds.AssertTrue<conds.Has<codec, { kind: "b"; b: string }>>;
+  type check3 = conds.AssertTrue<
+    conds.Has<codec, { kind: "a"; b: string; a: string }>
+  >;
+  type check4 = conds.AssertTrue<
+    conds.Has<codec, { kind: "b"; b: string; a: string }>
+  >;
+
   expect(
     codec.decode({
       version: "1",
